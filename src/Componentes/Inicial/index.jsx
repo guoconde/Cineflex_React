@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 
 import Topo from "../Genericos/Topo"
+import './style.css'
 
 export default function Inicial() {
     const [filmes, setFilmes] = useState([])
@@ -15,7 +16,7 @@ export default function Inicial() {
     
     return (
         <>
-            <Topo />
+            <div className="titulo-pagina">Selecione o filme</div>
             {filmes.map(filme => <img src={filme.posterURL} key={filme.id} />)}
         </>
     )

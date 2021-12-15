@@ -1,0 +1,17 @@
+.topo {
+    width: 100%;
+    height: 67px;
+
+    font-size: 34px;
+    font-weight: 400;
+    color: #E8833A;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #C3CFD9;
+
+    position: fixed;
+    top: 0;
+}

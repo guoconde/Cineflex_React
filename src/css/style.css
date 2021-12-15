@@ -5,3 +5,8 @@
 body {
     font-family: 'roboto';
 }
+
+img {
+    width: 129px;
+    height: 193px;
+}
