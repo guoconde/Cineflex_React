@@ -1,0 +1,86 @@
+.main-assentos{
+    display: flex;
+    flex-direction: column;
+}
+
+.assentos {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+
+    padding: 0 25px;
+}
+
+.assento {
+    width: 26px;
+    height: 26px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    
+    border: 1px solid #808f9d;
+    border-radius: 14px;
+    
+    background-color: #c3cfd9;
+}
+
+.tipos-de-assentos {
+    display: flex;
+    justify-content: space-around;
+
+    padding: 0 25px;
+    margin-top: 20px;
+}
+
+.tipos-de-assentos > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 15px;
+    letter-spacing: -0.013em;
+    color: #4E5A65;
+}
+
+.assento.selecionado {
+    border-color: #1aae9e;
+
+    background-color: #8dd7cf;
+}
+
+.assento.indisponivel {
+    border-color: #F7C52B;
+
+    background-color: #FBE192;
+}
+
+.dados {
+    width: 100%;
+
+    padding: 0 25px;
+    margin-top: 45px;
+}
+
+.dados {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    color: #293845;
+}
+
+.btn-reservar {
+    width: 225px;
+    height: 42px;
+
+    margin: 55px auto 0;
+}
