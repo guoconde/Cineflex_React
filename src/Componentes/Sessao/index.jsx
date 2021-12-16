@@ -1,5 +1,7 @@
 import './style.css'
 
+import Rodape from '../Genericos/Rodape'
+
 export default function Sessoes() {
     return (
         <>
@@ -16,6 +18,7 @@ export default function Sessoes() {
                     <button className="btn-horario">19:00</button>
                 </main>
             </div>
+            <Rodape />
         </>
     )
 }

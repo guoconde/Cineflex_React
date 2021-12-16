@@ -1,3 +1,14 @@
+import './style.css'
+
 export default function Rodape() {
-    return <h1>Rodape</h1>
+    return (
+        <>
+            <div className="rodape">
+                <div className='poster'>
+                    <img src="" alt="" />
+                </div>
+                <p className='titulo-rodape'>Enola Holmes</p>
+            </div>
+        </>
+    )
 }
