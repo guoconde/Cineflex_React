@@ -1,0 +1,36 @@
+.sessoes {
+    width: 100%;
+
+    padding-left: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.data {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0.02em;
+    color: #293845;
+
+    margin-bottom: 25px;
+}
+
+.btn-horario {
+    width: 83px;
+    height: 43px;
+
+    margin-right: 10px;
+
+    background-color: #E8833A;
+    border: none;
+    border-radius: 3px;
+
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.02em;
+    color: #FFF;
+}
