@@ -3,7 +3,7 @@ import './style.css'
 import Rodape from '../Genericos/Rodape'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export default function Sessoes({ filmes }) {
     const [sessoes, setSessoes] = useState([])
@@ -11,7 +11,8 @@ export default function Sessoes({ filmes }) {
 
     const { idFilme } = useParams()
 
-    
+    console.log(sessoes)
+
     useEffect(() => {
         const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilme}/showtimes`)
         promessa.then(sessoesDisponiveis => {
@@ -20,8 +21,6 @@ export default function Sessoes({ filmes }) {
         }
         )
     }, [])
-    
-    console.log(sessoes)
 
     return (
         <>
@@ -31,7 +30,10 @@ export default function Sessoes({ filmes }) {
                     (s, i) => <main className="conteudo-sessoes" key={s.id}>
                         <p className="data">{s.weekday} - {s.date}</p>
                         {sessoes[i].showtimes.map(
-                            st => <button className="btn-horario" key={st.id}>{st.name}</button>
+                            st =>
+                                <Link to={`/assentos/${st.id}`} key={st.id}>
+                                    <button className="btn-horario">{st.name}</button>
+                                </Link>
                         )}
                     </main>)}
             </div>
