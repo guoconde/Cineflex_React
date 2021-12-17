@@ -5,17 +5,18 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export default function Assentos() {
-
     const [horarios, setHorarios] = useState([])
+    const [assentos, setAssentos] = useState([])
 
     console.log(horarios)
+    console.log(assentos)
 
     useEffect(() => {
         axios.get('https://mock-api.driven.com.br/api/v4/cineflex/showtimes/16/seats')
-            .then(resposta =>
+            .then(resposta => {
                 setHorarios(resposta.data)
-            )
-
+                setAssentos(resposta.data.seats)
+            })
     }, [])
 
 
@@ -25,16 +26,9 @@ export default function Assentos() {
                 <div className="titulo-pagina">Selecione o(s) assento(s)</div>
                 <div className="todos-assentos">
                     <div className="assentos">
-                        <div className="assento">1</div>
-                        <div className="assento">2</div>
-                        <div className="assento">3</div>
-                        <div className="assento">4</div>
-                        <div className="assento">5</div>
-                        <div className="assento">6</div>
-                        <div className="assento">7</div>
-                        <div className="assento">8</div>
-                        <div className="assento">9</div>
-                        <div className="assento">10</div>
+                        {assentos.map(a =>
+                            <div className="assento" isavailiable={a.isAvailiable} key={a.id}>{a.name}</div>
+                        )}
                     </div>
                     <div className="tipos-de-assentos">
                         <div>
