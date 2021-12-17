@@ -1,22 +1,11 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
-
 import './style.css'
 import { Link } from "react-router-dom"
 
-export default function Inicial() {
-    const [filmes, setFilmes] = useState([])
-
-    useEffect(() => {
-        const promessa = axios.get('https://mock-api.driven.com.br/api/v4/cineflex/movies')
-        promessa.then(filme =>
-            setFilmes(filme.data)
-        )
-    }, [])
+export default function Inicial({ filmes }) {
 
     const mapeando = filmes.map(filme =>
-        <Link to='/sessoes/:idFilme' id={filme.id} className="poster" >
-            <img src={filme.posterURL} key={filme.id} alt={filme.nome} />
+        <Link to={`/sessoes/${filme.id}`} key={filme.id} className="poster" >
+            <img src={filme.posterURL}  alt={filme.nome} />
         </Link>
         )
 

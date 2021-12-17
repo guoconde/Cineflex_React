@@ -1,13 +1,10 @@
 import './style.css'
 
-export default function Rodape() {
+export default function Rodape({ children }) {
     return (
         <>
             <div className="rodape">
-                <div className='poster'>
-                    <img src="" alt="" />
-                </div>
-                <p className='titulo-rodape'>Enola Holmes</p>
+                {children}
             </div>
         </>
     )

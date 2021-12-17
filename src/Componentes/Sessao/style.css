@@ -2,7 +2,8 @@
     width: 100%;
 
     padding-left: 25px;
-
+    margin-bottom: 150px;
+    
     display: flex;
     flex-direction: column;
     gap: 25px;

@@ -1,8 +1,24 @@
 import './style.css'
 
 import Rodape from '../Genericos/Rodape'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Assentos() {
+
+    const [horarios, setHorarios] = useState([])
+
+    console.log(horarios)
+
+    useEffect(() => {
+        axios.get('https://mock-api.driven.com.br/api/v4/cineflex/showtimes/16/seats')
+            .then(resposta =>
+                setHorarios(resposta.data)
+            )
+
+    }, [])
+
+
     return (
         <>
             <main className='main-assentos'>
