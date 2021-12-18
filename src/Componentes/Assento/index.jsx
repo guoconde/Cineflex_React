@@ -14,13 +14,8 @@ export default function Assentos() {
 
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
-    const [compradores, setCompradores] = useState({})
-    const [dadosCompletos, setDadosCompletos] = useState(
-        {
-            ids: '',
-            compradores: []
-        }
-    )
+    const [compradores, setCompradores] = useState([])
+    const [dadosCompletos, setDadosCompletos] = useState({})
 
     const { idSessao } = useParams()
 
@@ -32,23 +27,43 @@ export default function Assentos() {
             })
     }, [])
 
-    function selecionarAssentos(disponivel, assento) {
+    const handleDados = (indice, event, idCadeira) => {
+        const array = [...compradores]
+
+        console.dir(event.target)
+
+        array[indice].idAssento = idCadeira
+        if(event.target.name === `nome${idCadeira}`) {
+            array[indice].nome = event.target.value
+        } else {
+            array[indice].cpf = event.target.value
+        }
+    }
+
+       function selecionarAssentos(disponivel, assento) {
         setAssentoSelecionado([...assentos])
         let novoArray = []
-
+        let testa = [...compradores]
+        
         if (disponivel && assento.isAvailable !== 'selecionado') {
             setAssentoSelecionado(assento.isAvailable = 'selecionado')
             novoArray = [...contadorAssentos, assento.id]
+            testa.push({idAssento: '', nome: '', cpf: ''})
+            setCompradores(testa)
             setContadorAssentos([...novoArray])
         } else if (disponivel) {
             setAssentoSelecionado(assento.isAvailable = true)
             novoArray = [...contadorAssentos]
             let index = novoArray.indexOf(assento.id)
             novoArray.splice(index, 1)
+            testa.splice(index, 1)
+            setCompradores(testa)
             setContadorAssentos([...novoArray])
         }
         setAssentos([...assentos])
+        console.log(testa)
     }
+
 
     function handleCpf(e) {
         let recebido = e.target.value
@@ -65,8 +80,14 @@ export default function Assentos() {
     }
 
     function teste() {
-        setCompradores({ idAssento: 1, nome: "Fulano", cpf: "12345678900" })
-        setDadosCompletos(dadosCompletos.compradores.push(compradores))
+        const array = {
+            ids: [...contadorAssentos],
+            compradores: ''
+        }
+
+        array.compradores = compradores
+
+        setDadosCompletos(array)
 
     }
 
@@ -74,6 +95,8 @@ export default function Assentos() {
         return <div>carregando...</div>
     }
 
+    console.log(dadosCompletos)
+    
     return (
         <>
             <main className='main-assentos'>
@@ -102,9 +125,9 @@ export default function Assentos() {
                 {contadorAssentos.map((c, i) =>
                     <div className="dados" key={c}>
                         <p className='titulo-dados'>Nome do comprador:</p>
-                        <Input type="text" key={c} onChange={e => setNome(e.target.value)} value={nome} placeholder='Digite seu nome...' />
+                        <Input type="text" name={`nome${c}`} onChange={(event) => handleDados(i, event, c)} value={nome.name} placeholder='Digite seu nome...' />
                         <p className='titulo-dados'>CPF do comprador:</p>
-                        <Input type="text" onChange={e => handleCpf(e)} value={cpf} placeholder='Digite seu CPF...' />
+                        <Input type="number" name={`cpf${c}`} onChange={(event) => handleDados(i, event, c)} value={cpf.name} placeholder='Digite seu CPF...' />
                     </div>
                 )}
                 <button className='btn-reservar' onClick={() => teste()} >Reservar Assento(s)</button>
