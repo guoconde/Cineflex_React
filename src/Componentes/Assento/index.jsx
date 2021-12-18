@@ -1,6 +1,6 @@
 import './style.css'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 
@@ -11,7 +11,7 @@ export default function Assentos({ confirmarCompra }) {
     const [assentos, setAssentos] = useState([])
     const [assentoSelecionado, setAssentoSelecionado] = useState(null)
     const [contadorAssentos, setContadorAssentos] = useState([])
-    const [link, setLink] = useState('')
+    const navegar = useNavigate()
 
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
@@ -78,16 +78,15 @@ export default function Assentos({ confirmarCompra }) {
                 return
             }
         }
-        
+
         array.compradores = compradores
         setDadosCompletos(array)
-        setLink('/sucesso')
+        navegar('/sucesso')
         confirmarCompra(array, horarios.movie.title, horarios.day.weekday, horarios.name)
 
         // axios.post('https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many', array)
-        // .then(resp => console.log(resp))
     }
-    
+
     if (horarios.length === 0) {
         return <div>carregando...</div>
     }
@@ -127,9 +126,7 @@ export default function Assentos({ confirmarCompra }) {
                     </div>
                 )}
                 <button className='btn-reservar' onClick={() => pegarDadosCompletos()} >
-                    <Link to={link}>
-                        Reservar Assento(s)
-                    </Link>
+                    Reservar Assento(s)
                 </button>
             </main>
             <Rodape >

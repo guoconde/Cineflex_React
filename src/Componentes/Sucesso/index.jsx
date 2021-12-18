@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import './style.css'
 
 export default function Assentos({ ingressosComprados, filmeEscolhido }) {
 
     const { compradores } = ingressosComprados
+
+    const navegar = useNavigate()
 
     return (
         <>
@@ -16,7 +19,7 @@ export default function Assentos({ ingressosComprados, filmeEscolhido }) {
                             <p>{filmeEscolhido.dataFilme} - {filmeEscolhido.horarioFilme}</p>
                         </div>
                     </div>
-                    {compradores.map((comprador, indice)=> 
+                    {compradores.map((comprador, indice) =>
                         <div className="confirmado" key={indice}>
                             <p>Ingresso:</p>
                             <div className='dados-sucesso'>
@@ -27,7 +30,9 @@ export default function Assentos({ ingressosComprados, filmeEscolhido }) {
                         </div>
                     )}
                 </div>
-                <button className='btn-voltar'>Voltar para Home</button>
+                <button className='btn-voltar' onClick={() => navegar('/')}>
+                        Voltar para Home
+                </button>
             </main>
         </>
     )

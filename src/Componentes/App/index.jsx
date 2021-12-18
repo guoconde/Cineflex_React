@@ -25,20 +25,18 @@ export default function App() {
 
     function confirmarCompra(dadosCompletos, nomeFilme, dataFilme, horarioFilme) {
         setIngressosComprados(dadosCompletos)
-        setFilmeEscolhido({nomeFilme, dataFilme, horarioFilme})
+        setFilmeEscolhido({ nomeFilme, dataFilme, horarioFilme })
     }
-
-    console.log(filmeEscolhido)
 
     return (
         <>
-            <Topo />
             <BrowserRouter >
+                <Topo />
                 <Routes>
-                    <Route path='/' element={<Inicial filmes={filmes}/>} />
-                    <Route path='/sessoes/:idFilme' element={<Sessoes filmes={filmes}/>} />
-                    <Route path='/assentos/:idSessao' element={<Assentos confirmarCompra={confirmarCompra}/>} />
-                    <Route path='/sucesso' element={<Sucesso ingressosComprados={ingressosComprados} filmeEscolhido={filmeEscolhido}/>} />
+                    <Route path='/' element={<Inicial filmes={filmes} />} />
+                    <Route path='/sessoes/:idFilme' element={<Sessoes filmes={filmes} />} />
+                    <Route path='/assentos/:idSessao' element={<Assentos confirmarCompra={confirmarCompra} />} />
+                    <Route path='/sucesso' element={<Sucesso ingressosComprados={ingressosComprados} filmeEscolhido={filmeEscolhido} />} />
                 </Routes>
             </BrowserRouter>
         </>
