@@ -1,6 +1,6 @@
 import './style.css'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 
@@ -11,6 +11,7 @@ export default function Assentos() {
     const [assentos, setAssentos] = useState([])
     const [assentoSelecionado, setAssentoSelecionado] = useState(null)
     const [contadorAssentos, setContadorAssentos] = useState([])
+    const [link, setLink] = useState('')
 
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
@@ -27,67 +28,59 @@ export default function Assentos() {
             })
     }, [])
 
-    const handleDados = (indice, event, idCadeira) => {
-        const array = [...compradores]
-
-        console.dir(event.target)
-
-        array[indice].idAssento = idCadeira
-        if(event.target.name === `nome${idCadeira}`) {
-            array[indice].nome = event.target.value
-        } else {
-            array[indice].cpf = event.target.value
-        }
-    }
-
-       function selecionarAssentos(disponivel, assento) {
+    function selecionarAssentos(disponivel, assento) {
         setAssentoSelecionado([...assentos])
         let novoArray = []
-        let testa = [...compradores]
-        
+        let novoCompradores = [...compradores]
+
         if (disponivel && assento.isAvailable !== 'selecionado') {
             setAssentoSelecionado(assento.isAvailable = 'selecionado')
             novoArray = [...contadorAssentos, assento.id]
-            testa.push({idAssento: '', nome: '', cpf: ''})
-            setCompradores(testa)
+            novoCompradores.push({ idAssento: '', nome: '', cpf: '' })
+            setCompradores(novoCompradores)
             setContadorAssentos([...novoArray])
         } else if (disponivel) {
-            setAssentoSelecionado(assento.isAvailable = true)
-            novoArray = [...contadorAssentos]
-            let index = novoArray.indexOf(assento.id)
-            novoArray.splice(index, 1)
-            testa.splice(index, 1)
-            setCompradores(testa)
-            setContadorAssentos([...novoArray])
+            const confirma = window.confirm("Gostaria cancelar a reserva deste assento?")
+            if (confirma) {
+                setAssentoSelecionado(assento.isAvailable = true)
+                novoArray = [...contadorAssentos]
+                let index = novoArray.indexOf(assento.id)
+                novoArray.splice(index, 1)
+                novoCompradores.splice(index, 1)
+                setCompradores(novoCompradores)
+                setContadorAssentos([...novoArray])
+            }
         }
         setAssentos([...assentos])
-        console.log(testa)
     }
 
+    const handleDados = (indice, event, idCadeira) => {
 
-    function handleCpf(e) {
-        let recebido = e.target.value
-        let regex = /^[0-9]{0,11}$/
-        let regexTamanho = /^[0-9]{11}$/
-        let cpfValido
-
-        if (regex.test(recebido)) {
-            setCpf(e.target.value)
-        }
-        if (regexTamanho.test(cpf) && !e.nativeEvent.inputType == 'deleteContentBackward') {
-            setCpf(cpfValido)
+        compradores[indice].idAssento = idCadeira
+        if (event.target.name === `nome${idCadeira}`) {
+            compradores[indice].nome = event.target.value
+        } else {
+            compradores[indice].cpf = event.target.value
         }
     }
 
-    function teste() {
+    function pegarDadosCompletos() {
         const array = {
             ids: [...contadorAssentos],
             compradores: ''
         }
 
-        array.compradores = compradores
+        let regex = /[aZ]/
 
+        for (let i = 0; i < compradores.length; i++) {
+            if (compradores[i].cpf.length !== 11 || regex.test(compradores[i].cpf)) {
+                window.alert(`O cpf do(a) ${compradores[i].nome} está incorreto.`)
+                return
+            }
+        }
+        array.compradores = compradores
         setDadosCompletos(array)
+        setLink('/sucesso')
 
     }
 
@@ -95,8 +88,6 @@ export default function Assentos() {
         return <div>carregando...</div>
     }
 
-    console.log(dadosCompletos)
-    
     return (
         <>
             <main className='main-assentos'>
@@ -122,15 +113,20 @@ export default function Assentos() {
                         </div>
                     </div>
                 </div>
-                {contadorAssentos.map((c, i) =>
-                    <div className="dados" key={c}>
+                {contadorAssentos.map((idOrigem, indice) =>
+                    <div className="dados" key={idOrigem}>
+                        <p className="titulo-dados" style={{ marginBottom: '5px' }} >Assento: {idOrigem.toString().slice(-2)}</p>
                         <p className='titulo-dados'>Nome do comprador:</p>
-                        <Input type="text" name={`nome${c}`} onChange={(event) => handleDados(i, event, c)} value={nome.name} placeholder='Digite seu nome...' />
+                        <Input type="text" name={`nome${idOrigem}`} onChange={(event) => handleDados(indice, event, idOrigem)} value={nome.name} placeholder='Digite seu nome...' />
                         <p className='titulo-dados'>CPF do comprador:</p>
-                        <Input type="number" name={`cpf${c}`} onChange={(event) => handleDados(i, event, c)} value={cpf.name} placeholder='Digite seu CPF...' />
+                        <Input type="text" maxLength={11} name={`cpf${idOrigem}`} onChange={(event) => handleDados(indice, event, idOrigem)} value={cpf.name} placeholder='Digite seu CPF...' />
                     </div>
                 )}
-                <button className='btn-reservar' onClick={() => teste()} >Reservar Assento(s)</button>
+                <button className='btn-reservar' onClick={() => pegarDadosCompletos()} >
+                    <Link to={link}>
+                        Reservar Assento(s)
+                    </Link>
+                </button>
             </main>
             <Rodape >
                 <div className='poster'>

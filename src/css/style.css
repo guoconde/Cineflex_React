@@ -26,3 +26,7 @@ button {
 button:hover {
     background-color: #e47322;
 }
+
+a {
+    all: unset;
+}
