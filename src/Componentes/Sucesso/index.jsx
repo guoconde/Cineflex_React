@@ -1,6 +1,9 @@
 import './style.css'
 
-export default function Assentos() {
+export default function Assentos({ ingressosComprados, filmeEscolhido }) {
+
+    const { compradores } = ingressosComprados
+
     return (
         <>
             <main className='main-sucesso'>
@@ -9,24 +12,20 @@ export default function Assentos() {
                     <div className="confirmado">
                         <p>Filme e sessão</p>
                         <div className='dados-sucesso'>
-                            <p>Enola Holmes</p>
-                            <p>24/06/2021 15:00</p>
+                            <p>{filmeEscolhido.nomeFilme}</p>
+                            <p>{filmeEscolhido.dataFilme} - {filmeEscolhido.horarioFilme}</p>
                         </div>
                     </div>
-                    <div className="confirmado">
-                        <p>Ingressos</p>
-                        <div className='dados-sucesso'>
-                            <p>Assento 15</p>
-                            <p>Assento 16</p>
+                    {compradores.map((comprador, indice)=> 
+                        <div className="confirmado" key={indice}>
+                            <p>Ingresso:</p>
+                            <div className='dados-sucesso'>
+                                <p>Assento: {comprador.idAssento.toString().slice(-2)}</p>
+                                <p>Nome: {comprador.nome}</p>
+                                <p>CPF: {comprador.cpf}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="confirmado">
-                        <p>Comprador</p>
-                        <div className='dados-sucesso'>
-                            <p>Nome: João da Silva Sauro</p>
-                            <p>CPF: 123.456.789-10</p>
-                        </div>
-                    </div>
+                    )}
                 </div>
                 <button className='btn-voltar'>Voltar para Home</button>
             </main>

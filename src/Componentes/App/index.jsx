@@ -13,6 +13,8 @@ import Sucesso from '../Sucesso'
 
 export default function App() {
     const [filmes, setFilmes] = useState([])
+    const [ingressosComprados, setIngressosComprados] = useState('')
+    const [filmeEscolhido, setFilmeEscolhido] = useState({})
 
     useEffect(() => {
         const promessa = axios.get('https://mock-api.driven.com.br/api/v4/cineflex/movies')
@@ -21,6 +23,12 @@ export default function App() {
         )
     }, [])
 
+    function confirmarCompra(dadosCompletos, nomeFilme, dataFilme, horarioFilme) {
+        setIngressosComprados(dadosCompletos)
+        setFilmeEscolhido({nomeFilme, dataFilme, horarioFilme})
+    }
+
+    console.log(filmeEscolhido)
 
     return (
         <>
@@ -29,8 +37,8 @@ export default function App() {
                 <Routes>
                     <Route path='/' element={<Inicial filmes={filmes}/>} />
                     <Route path='/sessoes/:idFilme' element={<Sessoes filmes={filmes}/>} />
-                    <Route path='/assentos/:idSessao' element={<Assentos filmes={filmes}/>} />
-                    <Route path='/sucesso' element={<Sucesso />} />
+                    <Route path='/assentos/:idSessao' element={<Assentos confirmarCompra={confirmarCompra}/>} />
+                    <Route path='/sucesso' element={<Sucesso ingressosComprados={ingressosComprados} filmeEscolhido={filmeEscolhido}/>} />
                 </Routes>
             </BrowserRouter>
         </>

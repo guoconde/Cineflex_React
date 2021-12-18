@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import Rodape from '../Genericos/Rodape'
 
-export default function Assentos() {
+export default function Assentos({ confirmarCompra }) {
     const [horarios, setHorarios] = useState([])
     const [assentos, setAssentos] = useState([])
     const [assentoSelecionado, setAssentoSelecionado] = useState(null)
@@ -78,12 +78,16 @@ export default function Assentos() {
                 return
             }
         }
+        
         array.compradores = compradores
         setDadosCompletos(array)
         setLink('/sucesso')
+        confirmarCompra(array, horarios.movie.title, horarios.day.weekday, horarios.name)
 
+        // axios.post('https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many', array)
+        // .then(resp => console.log(resp))
     }
-
+    
     if (horarios.length === 0) {
         return <div>carregando...</div>
     }
