@@ -5,12 +5,22 @@ import axios from 'axios'
 import styled from 'styled-components'
 
 import Rodape from '../Genericos/Rodape'
-import Dados from './Dados'
 
 export default function Assentos() {
     const [horarios, setHorarios] = useState([])
     const [assentos, setAssentos] = useState([])
     const [assentoSelecionado, setAssentoSelecionado] = useState(null)
+    const [contadorAssentos, setContadorAssentos] = useState([])
+
+    const [nome, setNome] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [compradores, setCompradores] = useState({})
+    const [dadosCompletos, setDadosCompletos] = useState(
+        {
+            ids: '',
+            compradores: []
+        }
+    )
 
     const { idSessao } = useParams()
 
@@ -22,18 +32,47 @@ export default function Assentos() {
             })
     }, [])
 
-    function selecionarAssentos(disponivel, teste, aqui) {
+    function selecionarAssentos(disponivel, assento) {
         setAssentoSelecionado([...assentos])
-        
-        if(disponivel) {
-            setAssentoSelecionado(teste.isAvailable = 'selecionado')
+        let novoArray = []
+
+        if (disponivel && assento.isAvailable !== 'selecionado') {
+            setAssentoSelecionado(assento.isAvailable = 'selecionado')
+            novoArray = [...contadorAssentos, assento.id]
+            setContadorAssentos([...novoArray])
+        } else if (disponivel) {
+            setAssentoSelecionado(assento.isAvailable = true)
+            novoArray = [...contadorAssentos]
+            let index = novoArray.indexOf(assento.id)
+            novoArray.splice(index, 1)
+            setContadorAssentos([...novoArray])
         }
         setAssentos([...assentos])
     }
 
-    if(horarios.length === 0) {
+    function handleCpf(e) {
+        let recebido = e.target.value
+        let regex = /^[0-9]{0,11}$/
+        let regexTamanho = /^[0-9]{11}$/
+        let cpfValido
+
+        if (regex.test(recebido)) {
+            setCpf(e.target.value)
+        }
+        if (regexTamanho.test(cpf) && !e.nativeEvent.inputType == 'deleteContentBackward') {
+            setCpf(cpfValido)
+        }
+    }
+
+    function teste() {
+        setCompradores({ idAssento: 1, nome: "Fulano", cpf: "12345678900" })
+        setDadosCompletos(dadosCompletos.compradores.push(compradores))
+
+    }
+
+    if (horarios.length === 0) {
         return <div>carregando...</div>
-    } 
+    }
 
     return (
         <>
@@ -41,8 +80,8 @@ export default function Assentos() {
                 <div className="titulo-pagina">Selecione o(s) assento(s)</div>
                 <div className="todos-assentos">
                     <div className="assentos">
-                        {assentos.map((a, i) =>
-                            <Cadeira disponivel={a.isAvailable} onClick={() => selecionarAssentos(a.isAvailable, a, i)} key={a.id}>{a.name}</Cadeira>
+                        {assentos.map((a) =>
+                            <Cadeira disponivel={a.isAvailable} onClick={() => selecionarAssentos(a.isAvailable, a)} key={a.id}>{a.name}</Cadeira>
                         )}
                     </div>
                     <div className="tipos-de-assentos">
@@ -60,14 +99,24 @@ export default function Assentos() {
                         </div>
                     </div>
                 </div>
-                <Dados />
+                {contadorAssentos.map((c, i) =>
+                    <div className="dados" key={c}>
+                        <p className='titulo-dados'>Nome do comprador:</p>
+                        <Input type="text" key={c} onChange={e => setNome(e.target.value)} value={nome} placeholder='Digite seu nome...' />
+                        <p className='titulo-dados'>CPF do comprador:</p>
+                        <Input type="text" onChange={e => handleCpf(e)} value={cpf} placeholder='Digite seu CPF...' />
+                    </div>
+                )}
+                <button className='btn-reservar' onClick={() => teste()} >Reservar Assento(s)</button>
             </main>
             <Rodape >
                 <div className='poster'>
                     <img src={horarios.movie.posterURL} alt="" />
                 </div>
-                <p className='titulo-rodape'>{horarios.movie.title}</p>
-                <p>Qualquer coisa</p>
+                <TituloFilme>
+                    <p className='titulo-rodape'>{horarios.movie.title}</p>
+                    <p className='titulo-rodape'>{horarios.day.weekday} - {horarios.name}</p>
+                </TituloFilme>
             </Rodape>
         </>
     )
@@ -91,4 +140,26 @@ const Cadeira = styled.div`
     border-radius: 14px;
     
     background-color: ${props => props.disponivel === true ? '#c3cfd9' : props.disponivel === 'selecionado' ? '#8dd7cf' : '#FBE192'}};
+`
+
+const Input = styled.input`
+    width: 100%;
+    height: 50px;
+
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 21px;
+    color: #293845;
+
+    padding-left: 20px;
+    border: 1px solid #afafaf;
+`
+
+const TituloFilme = styled.div`
+    display: flex;
+    flex-direction: column;
 `

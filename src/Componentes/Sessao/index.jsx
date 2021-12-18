@@ -5,19 +5,17 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
 
-export default function Sessoes({ filmes }) {
+export default function Sessoes() {
     const [sessoes, setSessoes] = useState([])
     const [filmeEscolhido, setFilmeEscolhido] = useState('')
 
     const { idFilme } = useParams()
 
-    console.log(sessoes)
-
     useEffect(() => {
         const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/cineflex/movies/${idFilme}/showtimes`)
         promessa.then(sessoesDisponiveis => {
             setSessoes(sessoesDisponiveis.data.days)
-            setFilmeEscolhido(filmes[idFilme - 1].title)
+            setFilmeEscolhido(sessoesDisponiveis.data)
         }
         )
     }, [])
@@ -39,9 +37,9 @@ export default function Sessoes({ filmes }) {
             </div>
             <Rodape >
                 <div className='poster'>
-                    <img src={filmes[idFilme - 1].posterURL} alt="" />
+                    <img src={filmeEscolhido.posterURL} alt={filmeEscolhido.posterURL} />
                 </div>
-                <p className='titulo-rodape'>{filmes[idFilme - 1].title}</p>
+                <p className='titulo-rodape'>{filmeEscolhido.title}</p>
             </Rodape>
         </>
     )
