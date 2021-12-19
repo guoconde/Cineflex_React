@@ -9,14 +9,13 @@ import Rodape from '../Genericos/Rodape'
 export default function Assentos({ confirmarCompra }) {
     const [horarios, setHorarios] = useState([])
     const [assentos, setAssentos] = useState([])
-    const [assentoSelecionado, setAssentoSelecionado] = useState(null)
+    const [ , setAssentoSelecionado] = useState(null)
     const [contadorAssentos, setContadorAssentos] = useState([])
     const navegar = useNavigate()
 
-    const [nome, setNome] = useState('')
-    const [cpf, setCpf] = useState('')
+    const [nome] = useState('')
+    const [cpf] = useState('')
     const [compradores, setCompradores] = useState([])
-    const [dadosCompletos, setDadosCompletos] = useState({})
 
     const { idSessao } = useParams()
 
@@ -80,7 +79,6 @@ export default function Assentos({ confirmarCompra }) {
         }
 
         array.compradores = compradores
-        setDadosCompletos(array)
         navegar('/sucesso')
         confirmarCompra(array, horarios.movie.title, horarios.day.weekday, horarios.name)
 
@@ -118,7 +116,7 @@ export default function Assentos({ confirmarCompra }) {
                 </div>
                 {contadorAssentos.map((idOrigem, indice) =>
                     <div className="dados" key={idOrigem}>
-                        <p className="titulo-dados" style={{ marginBottom: '5px' }} >Assento: {idOrigem.toString().slice(-2)}</p>
+                        <p className="titulo-dados" style={{ marginBottom: '5px' }} >Assento: {horarios.name === '19:00' ? (idOrigem - 50).toString().slice(-2) : idOrigem.toString().slice(-2)}</p>
                         <p className='titulo-dados'>Nome do comprador:</p>
                         <Input type="text" name={`nome${idOrigem}`} onChange={(event) => handleDados(indice, event, idOrigem)} value={nome.name} placeholder='Digite seu nome...' />
                         <p className='titulo-dados'>CPF do comprador:</p>

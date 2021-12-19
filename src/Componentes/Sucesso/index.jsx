@@ -23,7 +23,11 @@ export default function Assentos({ ingressosComprados, filmeEscolhido }) {
                         <div className="confirmado" key={indice}>
                             <p>Ingresso:</p>
                             <div className='dados-sucesso'>
-                                <p>Assento: {comprador.idAssento.toString().slice(-2)}</p>
+                                <p>Assento: {
+                                    filmeEscolhido.horarioFilme === '19:00' ?
+                                        (comprador.idAssento - 50).toString().slice(-2) :
+                                        comprador.idAssento.toString().slice(-2)}
+                                </p>
                                 <p>Nome: {comprador.nome}</p>
                                 <p>CPF: {comprador.cpf}</p>
                             </div>
@@ -31,7 +35,7 @@ export default function Assentos({ ingressosComprados, filmeEscolhido }) {
                     )}
                 </div>
                 <button className='btn-voltar' onClick={() => navegar('/')}>
-                        Voltar para Home
+                    Voltar para Home
                 </button>
             </main>
         </>
