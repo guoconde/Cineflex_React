@@ -84,7 +84,7 @@ export default function Assentos({ confirmarCompra }) {
         navegar('/sucesso')
         confirmarCompra(array, horarios.movie.title, horarios.day.weekday, horarios.name)
 
-        // axios.post('https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many', array)
+        axios.post('https://mock-api.driven.com.br/api/v4/cineflex/seats/book-many', array)
     }
 
     if (horarios.length === 0) {
