@@ -25,7 +25,7 @@ export default function Assentos({ confirmarCompra }) {
                 setHorarios(resposta.data)
                 setAssentos(resposta.data.seats)
             })
-    }, [])
+    }, [idSessao])
 
     function selecionarAssentos(disponivel, assento) {
         setAssentoSelecionado([...assentos])

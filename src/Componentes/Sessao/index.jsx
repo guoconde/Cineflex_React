@@ -18,7 +18,7 @@ export default function Sessoes() {
             setFilmeEscolhido(sessoesDisponiveis.data)
         }
         )
-    }, [])
+    }, [idFilme])
 
     return (
         <>
